@@ -65,8 +65,8 @@ class RaceboardEnv(gym.Env):
     observation_space = spaces.MultiDiscrete([[2, 2, 5, 5]])
     reward_range = (-1, 0)
 
-    def __init__(self, map='map_1', is_noise=False):
-        self.map = MAPS[map]
+    def __init__(self, map_type='map_1', is_noise=False):
+        self.map = MAPS[map_type]
         self.is_noise = is_noise
 
         self.action_space = spaces.MultiDiscrete([3, 3])
@@ -80,7 +80,7 @@ class RaceboardEnv(gym.Env):
 
         self._seed()
 
-    def _step(self, action):
+    def step(self, action):
         delta_y, delta_x = action
         y, x, vel_y, vel_x = self.s
 
@@ -108,16 +108,16 @@ class RaceboardEnv(gym.Env):
 
         return self.s, -1, finished, {}
 
-    def _reset(self):
+    def reset(self):
         self.s = self.get_random_start_state()
         self.action_result = RaceboardEnv.MoveResult.OKAY
         self.crashed_pos = None
 
-    def _seed(self, seed=None):
+    def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return seed
 
-    def _render(self, mode='human', close=False):
+    def render(self, mode='human', close=False):
         if close:
             return
 
