@@ -93,6 +93,8 @@ class RaceboardEnv(gym.Env):
         self.last = None
         self.invalid = False
 
+        return self.s
+
     def seed(self, seed=None):
         self.np_random, seed = seeding.np_random(seed)
         return seed
