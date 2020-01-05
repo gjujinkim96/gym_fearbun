@@ -7,7 +7,6 @@ env = gym.make('gym_fearbun:raceboard-v0', map_name='map1.txt')
 
 env.reset()
 done = False
-input()
 while not done:
     action = space_to_action(env.action_space.sample())
     print(env.s)

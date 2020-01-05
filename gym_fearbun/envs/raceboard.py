@@ -4,8 +4,8 @@ from gym.utils import seeding, colorize
 from enum import Enum
 from six import StringIO
 import sys
-import os.path
 from operator import methodcaller
+from pathlib import Path
 
 
 def action_to_space(action):
@@ -136,15 +136,17 @@ class RaceboardEnv(gym.Env):
         self.is_noise = is_noise
         self.action_space = spaces.MultiDiscrete([3, 3])
 
-        if os.path.isfile(file_name):
-            with open(file_name) as fp:
-                tmp = fp.readlines()
-        elif os.path.isfile(os.path.join('gym_fearbun', 'maps', file_name)):
-            file_name = os.path.join('gym_fearbun', 'maps', file_name)
-            with open(file_name) as fp:
+        file = Path(file_name)
+        if file.is_file():
+            with file.open() as fp:
                 tmp = fp.readlines()
         else:
-            raise FileNotFoundError(file_name)
+            file = Path(__file__).parent.parent.joinpath('maps', file_name)
+            if file.is_file():
+                with file.open() as fp:
+                    tmp = fp.readlines()
+            else:
+                raise FileNotFoundError(file_name)
 
         tmp = map(methodcaller('rstrip', '\n'), tmp)
         self.map = list(map(list, tmp))
