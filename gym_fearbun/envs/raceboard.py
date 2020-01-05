@@ -65,7 +65,7 @@ class RaceboardEnv(gym.Env):
 
         # if invalid maybe do as if nothing happen or maybe -1 extra reward
         # action result should be enum set
-        if vel_y < 0 or vel_x < 0 or (vel_y == 0 and vel_x == 0 and self.map[y][x] != 'S'):
+        if vel_y < 0 or vel_x < 0 or (vel_y == 0 and vel_x == 0 and self.map[y][x] != 'S') or vel_x >= 5 or vel_y >= 5:
             self.invalid = True
             y, x, vel_y, vel_x = self.s
 
