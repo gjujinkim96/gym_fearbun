@@ -45,7 +45,9 @@ class RaceboardEnv(gym.Env):
         self.seed()
 
     def step(self, action):
+        action = space_to_action(action)
         self.crashed_pos = None
+
         delta_y, delta_x = action
         y, x, vel_y, vel_x = self.s
         self.last = (y, x)
